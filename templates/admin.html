@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Croissant - Admin Dashboard</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body{
+            background-color:#fcf8f4;
+            color:#4a3728;
+        }
+
+        .bg-premium{
+            background-color:#a37060;
+        }
+
+        .text-premium{
+            color:#a37060;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+            <h1 class="text-2xl font-bold text-premium">
+                Le Croissant Admin
+            </h1>
+
+            <a href="index.html"
+               class="bg-premium text-white px-4 py-2 rounded-lg">
+                Back To Website
+            </a>
+
+        </div>
+    </nav>
+
+    <!-- Dashboard -->
+    <div class="max-w-7xl mx-auto px-6 py-10">
+
+        <div class="flex justify-between items-center mb-8">
+
+            <div>
+                <h2 class="text-4xl font-bold">
+                    Owner Dashboard
+                </h2>
+
+                <p class="text-sm opacity-70">
+                    Live Bookings & Customer Orders
+                </p>
+            </div>
+
+            <button
+                onclick="refreshDashboard()"
+                class="bg-premium text-white px-5 py-3 rounded-lg shadow">
+
+                Refresh Data
+
+            </button>
+
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid md:grid-cols-3 gap-6 mb-10">
+
+            <div class="bg-white p-6 rounded-2xl shadow">
+                <h3 class="text-sm uppercase opacity-60">
+                    Total Bookings
+                </h3>
+
+                <p id="booking-count"
+                   class="text-4xl font-bold mt-2">
+                    0
+                </p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow">
+                <h3 class="text-sm uppercase opacity-60">
+                    Total Orders
+                </h3>
+
+                <p id="order-count"
+                   class="text-4xl font-bold mt-2">
+                    0
+                </p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow">
+                <h3 class="text-sm uppercase opacity-60">
+                    Avg Rating
+                </h3>
+
+                <p id="avg-rating"
+                   class="text-4xl font-bold mt-2">
+                    0
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Tables -->
+        <div class="grid lg:grid-cols-2 gap-8">
+
+            <!-- Bookings Table -->
+            <div class="bg-white p-6 rounded-2xl shadow">
+
+                <h3 class="text-xl font-bold text-premium mb-4">
+                    Live Table Bookings
+                </h3>
+
+                <div class="overflow-x-auto">
+
+                    <table class="w-full">
+
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left py-3">Customer</th>
+                                <th class="text-left py-3">Table</th>
+                                <th class="text-left py-3">Date</th>
+                                <th class="text-left py-3">Time</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="admin-bookings-rows">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <!-- Orders Table -->
+            <div class="bg-white p-6 rounded-2xl shadow">
+
+                <h3 class="text-xl font-bold text-premium mb-4">
+                    Customer Orders & Ratings
+                </h3>
+
+                <div class="overflow-x-auto">
+
+                    <table class="w-full">
+
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left py-3">Customer</th>
+                                <th class="text-left py-3">Order</th>
+                                <th class="text-left py-3">Rating</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="admin-orders-rows">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const API_BASE =
+        "http://127.0.0.1:5000/api";
+
+        async function refreshDashboard(){
+
+            try{
+
+                const res =
+                await fetch(
+                    `${API_BASE}/admin/dashboard`
+                );
+
+                const result =
+                await res.json();
+
+                // Bookings
+
+                const bookingTable =
+                document.getElementById(
+                    "admin-bookings-rows"
+                );
+
+                bookingTable.innerHTML = "";
+
+                result.bookings.forEach(b => {
+
+                    bookingTable.innerHTML += `
+                    <tr class="border-b">
+
+                        <td class="py-3">
+                            ${b[1]}
+                        </td>
+
+                        <td class="py-3">
+                            Table ${b[2]}
+                        </td>
+
+                        <td class="py-3">
+                            ${b[3]}
+                        </td>
+
+                        <td class="py-3">
+                            ${b[4]}
+                        </td>
+
+                    </tr>`;
+                });
+
+                // Orders
+
+                const ordersTable =
+                document.getElementById(
+                    "admin-orders-rows"
+                );
+
+                ordersTable.innerHTML = "";
+
+                let totalRating = 0;
+
+                result.orders.forEach(o => {
+
+                    totalRating += o[4];
+
+                    ordersTable.innerHTML += `
+                    <tr class="border-b">
+
+                        <td class="py-3">
+                            ${o[1]}
+                        </td>
+
+                        <td class="py-3">
+                            ${o[2]}
+                        </td>
+
+                        <td class="py-3 text-yellow-500">
+                            ${'★'.repeat(o[4])}
+                            ${'☆'.repeat(5-o[4])}
+                        </td>
+
+                    </tr>`;
+                });
+
+                // Stats
+
+                document.getElementById(
+                    "booking-count"
+                ).innerText =
+                result.bookings.length;
+
+                document.getElementById(
+                    "order-count"
+                ).innerText =
+                result.orders.length;
+
+                let avg = 0;
+
+                if(result.orders.length > 0){
+
+                    avg =
+                    (
+                        totalRating /
+                        result.orders.length
+                    ).toFixed(1);
+                }
+
+                document.getElementById(
+                    "avg-rating"
+                ).innerText = avg;
+
+            }
+            catch(error){
+
+                console.error(error);
+
+                alert(
+                    "Unable to connect backend server."
+                );
+            }
+        }
+
+        window.onload = refreshDashboard;
+
+    </script>
+
+</body>
+</html>
+```
