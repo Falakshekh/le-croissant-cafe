@@ -1,0 +1,33 @@
+Technologies Used::
+Frontend: HTML5, CSS3 (for the luxury dark and gold café theme), and JavaScript Fetch API to handle asynchronous requests without reloading the page.
+Backend Framework: Python with Flask (Micro-framework chosen for its lightweight architecture and easy API routing).
+Production Server: Gunicorn (to run the Flask app stably on the cloud environment).
+Database: SQLite3 (A serverless relational database used to store menu items and customer booking details locally).
+Data Analysis & AI: Pandas library to fetch, parse, and analyze historical data frames directly from the database.
+
+Project Architecture & Core Files::
+init_db.py (Database Initialization Script):
+This script automatically creates the database file (cafe_database.db) and sets up two relational tables: menu and bookings. It also pre-loads the café menu items along with specific descriptive search tags.
+
+AI.py (Core Logic & Prediction Engine):
+This file handles the main logic behind the smart features:
+ai_menu_suggestor: It processes the user's natural language input, filters specific keyword matches (like 'sweet', 'cold', 'bitter'), and pulls matching recommendations from the database.
+train_and_predict_occupancy: It processes real-time database inputs using the Pandas library to predict the dynamic crowd occupancy percentage for any selected date based on pre-existing bookings, historical averages, and weekend rush patterns.
+
+app.py (Flask Server & API Endpoints):
+The central backbone of the application that manages HTTP routing and communicates with frontend scripts via 4 distinct API endpoints:
+/api/search (Triggers the menu suggestion script).
+/api/book (Inserts fresh customer details into the booking database).
+/api/predict-seat (Fetches the automated live occupancy percentage for the client side).
+/api/admin/dashboard (Provides structured JSON data tracking to the owner’s dashboard).
+
+templates/ (User Interfaces):
+index.html: The interactive customer interface for looking up items and booking slots.
+admin.html: A secure web portal for the café owner to visually track ongoing orders and seat schedules.
+
+Step-by-Step Development Workflow::
+Step 1 (Database Structure): Wrote the initial database setup script to map out relational fields for tracking users and items. Loaded initial dummy café records with appropriate metadata tags.
+Step 2 (Backend AI & Math Logic): Built the keyword parsing system for custom suggestions and designed a continuous trend-based mathematical logic using Pandas dataframes to calculate occupancy rates.
+Step 3 (Flask API Connection): Integrated the Python scripts with a Flask server framework and developed back-end routes to securely read and write JSON data payload packages.
+Step 4 (Frontend UI and Fetch Integration): Designed responsive frontend screens and linked them to the server endpoints using vanilla JavaScript fetch() promises, ensuring the UI updates data dynamically.
+Step 5 (Production Deployment): Added dependencies into a requirements.txt file, specified runtime parameters inside a web Procfile, pushed the source code repository to GitHub, and hosted the final running application online on the Render cloud hosting platform.
