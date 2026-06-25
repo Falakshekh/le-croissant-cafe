@@ -39,7 +39,7 @@
             <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md border">
                 <h3 class="text-lg font-serif font-bold mb-3">✨ Ask AI Food Recommender</h3>
                 <div class="flex gap-2">
-                    <input id="ai-input" type="text" placeholder="Kya khane ka mann hai? (e.g. chocolate, cold)" class="flex-1 border border-stone-200 px-4 py-2 rounded-xl text-sm">
+                    <input id="ai-input" type="text" placeholder="What are you craving? (e.g. chocolate, cold, etc)" class="flex-1 border border-stone-200 px-4 py-2 rounded-xl text-sm">
                     <button onclick="askAI()" class="bg-[#3d2a1d] text-white px-4 py-2 rounded-xl font-medium text-sm">Ask</button>
                 </div>
                 <div id="ai-results" class="mt-4 space-y-2 hidden"></div>
@@ -81,7 +81,7 @@
 
     <section id="booking" class="max-w-4xl mx-auto my-12 p-8 bg-white rounded-3xl shadow-sm border">
         <h2 class="text-3xl font-serif font-bold text-center mb-2">Book Your Premium Slot</h2>
-        <p class="text-center text-sm opacity-70 mb-8" id="ml-prediction">🔮 Loading ML Seat Demands...</p>
+        <p class="text-center text-sm opacity-70 mb-8" id="ml-prediction">🔮 Loading Seat Demands...</p>
         <form id="booking-form" onsubmit="handleBooking(event)" class="grid md:grid-cols-2 gap-6">
             <div><label class="block text-xs font-bold uppercase mb-2">Your Name</label><input type="text" id="book-name" required class="w-full border p-3 rounded-xl"></div>
             <div><label class="block text-xs font-bold uppercase mb-2">Select Table</label><select id="book-seat" class="w-full border p-3 rounded-xl"><option value="1">Table 1 (Window Side)</option><option value="2">Table 2 (Corner Cozy)</option><option value="3">Table 3 (Main Lounge)</option></select></div>
@@ -95,7 +95,7 @@
         <div class="text-center max-w-xl mx-auto mb-8">
             <span class="text-xs font-bold tracking-widest uppercase text-premium opacity-70">Feedback Portal</span>
             <h2 class="text-3xl font-serif font-bold text-[#3d2a1d] mt-1">Rate Your Experience ⭐</h2>
-            <p class="text-sm opacity-70 mt-2">Apne order ki details dalein aur cafe ko rate karein. Aapka feedback direct owner dashboard me securely SQL database me chala jayega.</p>
+            <p class="text-sm opacity-70 mt-2">Your feedback helps us bake better every day</p>
         </div>
        
         <form id="order-form" onsubmit="handleOrderRating(event)" class="grid md:grid-cols-2 gap-6">
@@ -123,19 +123,19 @@
             </div>
             <div class="md:col-span-2">
                 <button type="submit" class="w-full bg-[#3d2a1d] text-white py-3 rounded-xl font-bold tracking-wide hover:bg-opacity-95 transition shadow-sm">
-                    Submit Order Summary & Rating
+                    Submit Review
                 </button>
             </div>
         </form>
     </section>
 
     <section id="contact" class="max-w-4xl mx-auto my-16 p-8 bg-[#3d2a1d] text-white rounded-3xl shadow-lg">
-        <h2 class="text-3xl font-serif font-bold text-center mb-2">Contact Le Croissant</h2>
-        <p class="text-center text-sm text-stone-300 mb-8">We would love to hear from you or see you at our space.</p>
+        <h2 class="text-3xl font-serif font-bold text-center mb-2">Get in Touch</h2>
+        <p class="text-center text-sm text-stone-300 mb-8">We'd love to hear from you or welcome you at our cafe.</p>
         <div class="grid md:grid-cols-3 gap-6 text-center text-sm">
             <div class="p-4 bg-white bg-opacity-5 rounded-xl">
                 <h4 class="font-bold text-premium mb-1">📍 Visit Us</h4>
-                <p class="opacity-80">12, Aesthetic Bakery Lane,<br>Ajmer, Rajasthan</p>
+                <p class="opacity-80">12, Coffee street,<br>brewtown USA</p>
             </div>
             <div class="p-4 bg-white bg-opacity-5 rounded-xl">
                 <h4 class="font-bold text-premium mb-1">📞 Call Us</h4>
@@ -143,7 +143,7 @@
             </div>
             <div class="p-4 bg-white bg-opacity-5 rounded-xl">
                 <h4 class="font-bold text-premium mb-1">✉️ Email Us</h4>
-                <p class="opacity-80">bonjour@lecroissant.com<br>support@lecroissant.com</p>
+                <p class="opacity-80">hello@lecroissant.com<br>support@lecroissant.com</p>
             </div>
         </div>
     </section>
