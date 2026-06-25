@@ -19,7 +19,7 @@
             <a href="#" class="hover:text-premium transition">Home</a>
             <a href="#menu" class="hover:text-premium transition">Menu</a>
             <a href="#booking" class="hover:text-premium transition">Book Slot</a>
-            <a href="#order-review" class="hover:text-premium transition">Order & Rate</a>
+            <a href="#rating-section" class="hover:text-premium transition">Give Rating ⭐</a>
             <a href="/bookings" class="text-premium font-bold hover:underline transition">🔎 Check Booking</a>
         </div>
         <a href="#booking" class="bg-premium text-white px-5 py-2.5 rounded-full text-xs uppercase tracking-wider font-semibold">Book Slot</a>
@@ -77,16 +77,41 @@
         </form>
     </section>
 
-    <section id="order-review" class="max-w-4xl mx-auto my-16 p-8 bg-white rounded-3xl shadow-sm border">
-        <h2 class="text-3xl font-serif font-bold text-center mb-2">Order Items & Give Feedback</h2>
-        <p class="text-center text-sm opacity-70 mb-8">Apna order items list karein aur hume rate karein (Data owner dashboard me update hoga).</p>
+    <section id="rating-section" class="max-w-4xl mx-auto my-16 p-8 bg-white rounded-3xl shadow-sm border border-stone-200">
+        <div class="text-center max-w-xl mx-auto mb-8">
+            <span class="text-xs font-bold tracking-widest uppercase text-premium opacity-70">Feedback Portal</span>
+            <h2 class="text-3xl font-serif font-bold text-[#3d2a1d] mt-1">Rate Your Experience ⭐</h2>
+            <p class="text-sm opacity-70 mt-2">Apne order ki details dalein aur cafe ko rate karein. Aapka feedback direct owner dashboard me securely SQL database me chala jayega.</p>
+        </div>
         
         <form id="order-form" onsubmit="handleOrderRating(event)" class="grid md:grid-cols-2 gap-6">
-            <div><label class="block text-xs font-bold uppercase mb-2">Customer Name</label><input type="text" id="order-name" required class="w-full border p-3 rounded-xl" placeholder="Enter your registered name"></div>
-            <div><label class="block text-xs font-bold uppercase mb-2">What did you order?</label><input type="text" id="order-items" required class="w-full border p-3 rounded-xl" placeholder="e.g. 2 Croissant, 1 Matcha Latte"></div>
-            <div><label class="block text-xs font-bold uppercase mb-2">Give Rating (1 to 5 Stars)</label><select id="order-rating" class="w-full border p-3 rounded-xl text-yellow-600 font-bold"><option value="5">⭐⭐⭐⭐⭐ Excellent (5/5)</option><option value="4">⭐⭐⭐⭐ Good (4/5)</option><option value="3">⭐⭐⭐ Average (3/5)</option><option value="2">⭐⭐ Fair (2/5)</option><option value="1">⭐ Poor (1/5)</option></select></div>
-            <div><label class="block text-xs font-bold uppercase mb-2">Check-Out Time (Kon kab gya)</label><input type="time" id="order-checkout" required class="w-full border p-3 rounded-xl"></div>
-            <div class="md:col-span-2"><button type="submit" class="w-full bg-[#3d2a1d] text-white py-3 rounded-xl font-bold">Submit Order & Rating</button></div>
+            <div>
+                <label class="block text-xs font-bold uppercase mb-2 tracking-wider">Customer Name</label>
+                <input type="text" id="order-name" required class="w-full border border-stone-200 p-3 rounded-xl text-sm focus:outline-none focus:border-premium" placeholder="Enter your name">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase mb-2 tracking-wider">What did you order?</label>
+                <input type="text" id="order-items" required class="w-full border border-stone-200 p-3 rounded-xl text-sm focus:outline-none focus:border-premium" placeholder="e.g. 2 Crisp Berry Croissant, 1 Latte">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase mb-2 tracking-wider">Select Rating Star</label>
+                <select id="order-rating" class="w-full border border-stone-200 p-3 rounded-xl text-sm font-bold text-yellow-600 focus:outline-none focus:border-premium">
+                    <option value="5">⭐⭐⭐⭐⭐ Excellent (5/5)</option>
+                    <option value="4">⭐⭐⭐⭐ Good (4/5)</option>
+                    <option value="3">⭐⭐⭐ Average (3/5)</option>
+                    <option value="2">⭐⭐ Fair (2/5)</option>
+                    <option value="1">⭐ Poor (1/5)</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase mb-2 tracking-wider">Check-Out / Exit Time</label>
+                <input type="time" id="order-checkout" required class="w-full border border-stone-200 p-3 rounded-xl text-sm focus:outline-none focus:border-premium">
+            </div>
+            <div class="md:col-span-2">
+                <button type="submit" class="w-full bg-[#3d2a1d] text-white py-3 rounded-xl font-bold tracking-wide hover:bg-opacity-95 transition shadow-sm">
+                    Submit Order Summary & Rating
+                </button>
+            </div>
         </form>
     </section>
 
@@ -104,7 +129,7 @@
             const result = await res.json();
             const box = document.getElementById("ai-results");
             box.innerHTML=""; box.classList.remove("hidden");
-            if(result.data.length===0){ box.innerHTML=`<div class="text-sm p-2 text-red-500">No match. Try 'pastries'!</div>`; return; }
+            if(result.data.length===0){ box.innerHTML=`<div class="text-sm p-2 text-red-500">No match. Try another query!</div>`; return; }
             result.data.forEach(item=>{
                 box.innerHTML += `<div class="flex justify-between p-2 bg-stone-50 border rounded-xl text-xs"><div><strong>${item.name}</strong><p>${item.description}</p></div><span class="text-premium font-bold">₹${item.price}</span></div>`;
             });
@@ -151,13 +176,20 @@
                 rating: document.getElementById("order-rating").value,
                 checkout: document.getElementById("order-checkout").value
             };
-            const res = await fetch(`${API_BASE}/order-rating`, {
-                method:"POST",
-                headers:{"Content-Type":"application/json"},
-                body:JSON.stringify(payload)
-            });
-            const result = await res.json();
-            if(result.status==="success") { alert("⭐ Order details and rating saved securely in SQL!"); document.getElementById("order-form").reset(); }
+            try {
+                const res = await fetch(`${API_BASE}/order-rating`, {
+                    method:"POST",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify(payload)
+                });
+                const result = await res.json();
+                if(result.status==="success") { 
+                    alert("⭐ Thank you! Your rating & order details are securely recorded."); 
+                    document.getElementById("order-form").reset(); 
+                }
+            } catch(err) {
+                alert("Something went wrong while saving feedback.");
+            }
         }
 
         window.onload = function(){ document.getElementById("ml-prediction").innerText = "🔮 ML Analysis: Dynamic seat pattern analysis ready."; };
