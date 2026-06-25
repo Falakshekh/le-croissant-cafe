@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Croissant | Check Bookings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color:#fcf8f4; color:#4a3728; }
+        .bg-premium { background-color:#a37060; }
+        .text-premium { color:#a37060; }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <nav class="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
+        <div class="text-2xl font-serif italic font-bold text-premium">Le Croissant</div>
+        <a href="/" class="bg-premium text-white px-4 py-2 rounded-full text-xs uppercase tracking-wider font-semibold">Back to Home</a>
+    </nav>
+
+    <div class="max-w-2xl mx-auto my-12 p-8 bg-white rounded-3xl shadow-sm border">
+        <h2 class="text-3xl font-serif font-bold text-center mb-2">Find Your Booking</h2>
+        <p class="text-center text-sm opacity-70 mb-6">Apna naam daal kar apni confirmed seat status check karein.</p>
+
+        <div class="flex gap-2 mb-8">
+            <input id="search-name" type="text" placeholder="Enter your booking name..." class="flex-1 border px-4 py-3 rounded-xl focus:outline-none focus:border-premium">
+            <button onclick="checkMyBooking()" class="bg-[#3d2a1d] text-white px-6 py-3 rounded-xl font-medium">Search</button>
+        </div>
+
+        <div id="booking-results" class="space-y-4"></div>
+    </div>
+
+    <script>
+        async function checkMyBooking() {
+            const name = document.getElementById("search-name").value.trim();
+            const resultsBox = document.getElementById("booking-results");
+            if(!name) return;
+
+            resultsBox.innerHTML = "<p class='text-center opacity-50 text-sm'>Searching database...</p>";
+
+            try {
+                const res = await fetch("/api/admin/dashboard");
+                const data = await res.json();
+                
+                const userBookings = data.bookings.filter(b => b[1].toLowerCase().includes(name.toLowerCase()));
+                resultsBox.innerHTML = "";
+
+                if(userBookings.length === 0) {
+                    resultsBox.innerHTML = `<div class='p-4 bg-red-50 text-red-600 rounded-xl text-center text-sm'>No confirmed bookings found for "${name}".</div>`;
+                    return;
+                }
+
+                userBookings.forEach(b => {
+                    resultsBox.innerHTML += `
+                        <div class="p-5 bg-stone-50 rounded-2xl border flex justify-between items-center shadow-sm">
+                            <div>
+                                <span class="bg-green-100 text-green-800 text-xs px-2.5 py-1 rounded-full font-bold uppercase">Confirmed ✅</span>
+                                <h4 class="font-bold text-lg mt-2">${b[1]}</h4>
+                                <p class="text-xs opacity-70">Date: ${b[3]} | Time: ${b[4]}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs uppercase opacity-50 block">Assigned</span>
+                                <span class="text-xl font-serif font-bold text-premium">Table ${b[2]}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (err) {
+                resultsBox.innerHTML = "<p class='text-center text-red-500 text-sm'>Connection error. Try again.</p>";
+            }
+        }
+    </script>
+</body>
+</html>
