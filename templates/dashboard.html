@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Croissant - Owner Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-premium { background-color: #4A3B32; }
+        .text-premium { color: #4A3B32; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+
+    {% if not authenticated %}
+    <div class="flex items-center justify-center min-h-screen px-4">
+        <div class="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full border border-gray-100 text-center">
+            <div class="text-3xl font-serif italic font-bold text-premium mb-2">Le Croissant</div>
+            <p class="text-gray-500 text-sm mb-6">Owner Secure Dashboard Access</p>
+            
+            {% if error %}
+            <div class="bg-red-50 text-red-600 text-sm p-3 rounded-lg mb-4 font-medium">{{ error }}</div>
+            {% endif %}
+
+            <form action="/dashboard" method="POST" class="space-y-4">
+                <input type="password" name="password" placeholder="Enter Owner Password" required
+                    class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#4A3B32] transition text-center tracking-widest">
+                <button type="submit" class="w-full bg-premium text-white py-3 rounded-xl font-semibold shadow-md hover:bg-opacity-90 transition">
+                    Unlock Dashboard 🔓
+                </button>
+            </form>
+            <a href="/" class="block mt-4 text-xs text-gray-400 hover:underline">Back to Website</a>
+        </div>
+    </div>
+    {% else %}
+
+    <header class="bg-premium text-white py-6 px-8 shadow-md flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-serif italic font-bold">Le Croissant - Live Cafe Logs</h1>
+            <p class="text-xs opacity-70">Real-time SQL Database Monitoring</p>
+        </div>
+        <a href="/dashboard" class="bg-white text-premium px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider shadow hover:bg-gray-100 transition">Logout / Lock</a>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-10 space-y-12">
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h2 class="text-xl font-bold text-premium mb-4 flex items-center gap-2">🍽️ Customer Orders & Ratings</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-premium uppercase text-xs tracking-wider">
+                            <th class="p-4 rounded-l-lg">ID</th>
+                            <th class="p-4">Customer Name</th>
+                            <th class="p-4">Items Ordered</th>
+                            <th class="p-4">Rating Given</th>
+                            <th class="p-4 rounded-r-lg">Check-Out Time</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm divide-y divide-gray-100">
+                        {% for order in orders %}
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="p-4 font-bold text-gray-400">#{{ order[0] }}</td>
+                            <td class="p-4 font-semibold text-gray-800">{{ order[1] }}</td>
+                            <td class="p-4 text-gray-600">{{ order[2] }}</td>
+                            <td class="p-4 text-amber-500 font-bold">
+                                {% for i in range(order[3]) %}⭐{% endfor %} ({{ order[3] }}/5)
+                            </td>
+                            <td class="p-4 text-gray-500 font-mono">{{ order[4] }}</td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="5" class="p-4 text-center text-gray-400">No orders or ratings submitted yet.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h2 class="text-xl font-bold text-premium mb-4 flex items-center gap-2">📅 Advance Slot Bookings</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-premium uppercase text-xs tracking-wider">
+                            <th class="p-4 rounded-l-lg">ID</th>
+                            <th class="p-4">Customer Name</th>
+                            <th class="p-4">Seat/Table No.</th>
+                            <th class="p-4">Date</th>
+                            <th class="p-4 rounded-r-lg">Arrival Time</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm divide-y divide-gray-100">
+                        {% for booking in bookings %}
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="p-4 font-bold text-gray-400">#{{ booking[0] }}</td>
+                            <td class="p-4 font-semibold text-gray-800">{{ booking[1] }}</td>
+                            <td class="p-4 font-medium text-indigo-600">Table {{ booking[2] }}</td>
+                            <td class="p-4 text-gray-600">{{ booking[3] }}</td>
+                            <td class="p-4 text-gray-500 font-mono">{{ booking[4] }}</td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="5" class="p-4 text-center text-gray-400">No table slots booked yet.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+    {% endif %}
+
+</body>
+</html>
+

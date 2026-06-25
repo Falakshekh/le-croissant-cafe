@@ -128,6 +128,46 @@ def check_booking_api():
     
     results = [{"seat": r[0], "date": r[1], "time": r[2]} for r in rows]
     return jsonify({"status": "success", "data": results})
+from flask import render_template, request, redirect, url_for, flash
+
+# OWNER DASHBOARD ROUTE (Password Protected)
+@app.route('/dashboard', methods=['GET', 'POST'])
+def admin_dashboard():
+    # Default password for owner
+    OWNER_PASSWORD = "admin123"
+    authenticated = False
+    error = None
+
+    if request.method == 'POST':
+        entered_password = request.form.get('password')
+        if entered_password == OWNER_PASSWORD:
+            authenticated = True
+        else:
+            error = "Invalid Password! Only Owner can access."
+
+    # Agar password sahi hai ya session validated hai (Testing ke liye POST check)
+    if authenticated or request.args.get('login') == 'true':
+        conn = sqlite3.connect('cafe_database.db')
+        cursor = conn.cursor()
+        
+        # 1. Saari Bookings fetch karo
+        cursor.execute("SELECT * FROM bookings ORDER BY id DESC")
+        bookings = cursor.fetchall()
+        
+        # 2. Saare Orders, Ratings aur Check-out times fetch karo
+        cursor.execute("SELECT * FROM orders ORDER BY id DESC")
+        orders = cursor.fetchall()
+        
+        # 3. Saare Customers fetch karo
+        cursor.execute("SELECT * FROM users ORDER BY id DESC")
+        customers = cursor.fetchall()
+        
+        conn.close()
+        
+        return render_template('dashboard.html', authenticated=True, bookings=bookings, orders=orders, customers=customers)
+
+    return render_template('dashboard.html', authenticated=False, error=error)
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))

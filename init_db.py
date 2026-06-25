@@ -3,7 +3,8 @@ import sqlite3
 def init_db():
     conn = sqlite3.connect('cafe_database.db')
     cursor = conn.cursor()
-
+    cursor.execute("DROP TABLE IF EXISTS bookings")
+    cursor.execute("DROP TABLE IF EXISTS orders")
     # 1. Users Table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
@@ -45,6 +46,7 @@ def init_db():
     )''')
 
     cursor.execute("SELECT COUNT(*) FROM menu")
+
     if cursor.fetchone()[0] == 0:
         menu_items = [
             ('Crisp Berry Croissant', 'bakery', 250.00, 
