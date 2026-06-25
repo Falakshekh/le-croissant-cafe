@@ -14,40 +14,30 @@
 <body class="font-sans antialiased">
 
     <nav class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
-        <div class="text-2xl font-serif italic font-bold tracking-wide text-premium">
-            Le Croissant
-        </div>
+        <div class="text-2xl font-serif italic font-bold tracking-wide text-premium">Le Croissant</div>
         <div class="hidden md:flex space-x-8 font-medium text-sm tracking-wider uppercase opacity-80">
             <a href="#" class="hover:text-premium transition">Home</a>
             <a href="#menu" class="hover:text-premium transition">Menu</a>
-            <a href="#about" class="hover:text-premium transition">About Us</a>
-            <a href="#contact" class="hover:text-premium transition">Contact</a>
-            <a href="/bookings" class="text-premium font-bold hover:underline transition">🔎 Check My Booking</a>
+            <a href="#booking" class="hover:text-premium transition">Book Slot</a>
+            <a href="#order-review" class="hover:text-premium transition">Order & Rate</a>
+            <a href="/bookings" class="text-premium font-bold hover:underline transition">🔎 Check Booking</a>
         </div>
-        <a href="#booking" class="bg-premium text-white px-5 py-2.5 rounded-full text-xs uppercase tracking-wider font-semibold hover:bg-opacity-90 transition shadow-sm">
-            Book Slot
-        </a>
+        <a href="#booking" class="bg-premium text-white px-5 py-2.5 rounded-full text-xs uppercase tracking-wider font-semibold">Book Slot</a>
     </nav>
 
     <header class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center pt-8 pb-16">
         <div class="space-y-6">
             <span class="text-xs font-bold tracking-widest uppercase text-premium opacity-70">Artisan Bakery</span>
-            <h1 class="text-5xl md:text-6xl font-serif font-semibold leading-tight text-[#3d2a1d]">
-                Crisp Layers.<br>
-                <span class="italic font-normal text-premium">Juicy Berry Heart.</span>
-            </h1>
-            <p class="text-sm leading-relaxed max-w-md opacity-80">
-                Meticulously laminated croissants with a molten wild berry core. Light, flaky and crafted for moments that deserve indulgence.
-            </p>
-            <a href="#menu" class="inline-block bg-premium text-white px-6 py-3 rounded-md text-sm font-medium shadow-md">Explore Menu</a>
+            <h1 class="text-5xl md:text-6xl font-serif font-semibold leading-tight text-[#3d2a1d]">Crisp Layers.<br><span class="italic font-normal text-premium">Juicy Berry Heart.</span></h1>
+            <p class="text-sm leading-relaxed max-w-md opacity-80">Meticulously laminated croissants with a molten wild berry core. Light, flaky and crafted for moments that deserve indulgence.</p>
         </div>
 
         <div class="flex justify-center">
-            <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
+            <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md border">
                 <h3 class="text-lg font-serif font-bold mb-3">✨ Ask AI Food Recommender</h3>
                 <div class="flex gap-2">
-                    <input id="ai-input" type="text" placeholder="Kya khane ka mann hai? (e.g. meetha, thanda)" class="flex-1 border border-stone-200 px-4 py-2 rounded-xl">
-                    <button onclick="askAI()" class="bg-[#3d2a1d] text-white px-4 py-2 rounded-xl font-medium">Ask</button>
+                    <input id="ai-input" type="text" placeholder="Kya khane ka mann hai? (e.g. chocolate, cold)" class="flex-1 border border-stone-200 px-4 py-2 rounded-xl text-sm">
+                    <button onclick="askAI()" class="bg-[#3d2a1d] text-white px-4 py-2 rounded-xl font-medium text-sm">Ask</button>
                 </div>
                 <div id="ai-results" class="mt-4 space-y-2 hidden"></div>
             </div>
@@ -55,71 +45,49 @@
     </header>
 
     <section id="menu" class="max-w-7xl mx-auto px-6 py-16 border-t">
-        <span class="text-xs font-bold tracking-widest uppercase text-premium opacity-70 block text-center mb-2">Our Offerings</span>
-        <h2 class="text-4xl font-serif font-semibold text-center text-[#3d2a1d] mb-12">Seasonal Specials & Artisan Pastries</h2>
+        <h2 class="text-3xl font-serif font-semibold text-center mb-12 text-[#3d2a1d]">Artisan Pastries & Shakes</h2>
         <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition">
+            <div class="bg-white p-4 rounded-2xl border shadow-sm">
                 <div class="h-48 bg-stone-200 rounded-xl mb-4 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=500');"></div>
                 <h3 class="font-serif font-bold text-lg">Crisp Berry Croissant</h3>
-                <p class="text-xs opacity-70 mt-1">Laminated croissant with wild berry core</p>
-                <div class="flex justify-between items-center mt-4"><span class="text-premium font-bold">₹250.00</span><button class="bg-[#3d2a1d] text-white text-xs px-3 py-1.5 rounded-lg">Order</button></div>
+                <p class="text-xs opacity-70">₹250.00</p>
             </div>
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition">
+            <div class="bg-white p-4 rounded-2xl border shadow-sm">
                 <div class="h-48 bg-stone-200 rounded-xl mb-4 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=500');"></div>
                 <h3 class="font-serif font-bold text-lg">Black Forest Ornament</h3>
-                <p class="text-xs opacity-70 mt-1">Artisan chocolate dessert ball</p>
-                <div class="flex justify-between items-center mt-4"><span class="text-premium font-bold">₹320.00</span><button class="bg-[#3d2a1d] text-white text-xs px-3 py-1.5 rounded-lg">Order</button></div>
+                <p class="text-xs opacity-70">₹320.00</p>
             </div>
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition">
+            <div class="bg-white p-4 rounded-2xl border shadow-sm">
                 <div class="h-48 bg-stone-200 rounded-xl mb-4 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=500');"></div>
                 <h3 class="font-serif font-bold text-lg">Pumpkin Matcha Latte</h3>
-                <p class="text-xs opacity-70 mt-1">Cinnamon flavored cold matcha latte</p>
-                <div class="flex justify-between items-center mt-4"><span class="text-premium font-bold">₹180.00</span><button class="bg-[#3d2a1d] text-white text-xs px-3 py-1.5 rounded-lg">Order</button></div>
+                <p class="text-xs opacity-70">₹180.00</p>
             </div>
         </div>
     </section>
 
-    <section id="booking" class="max-w-4xl mx-auto my-16 p-8 bg-white rounded-3xl shadow-sm border">
+    <section id="booking" class="max-w-4xl mx-auto my-12 p-8 bg-white rounded-3xl shadow-sm border">
         <h2 class="text-3xl font-serif font-bold text-center mb-2">Book Your Premium Slot</h2>
-        <p class="text-center text-sm opacity-70 mb-8" id="ml-prediction">⚡ Loading ML Seat Demands...</p>
+        <p class="text-center text-sm opacity-70 mb-8" id="ml-prediction">🔮 Loading ML Seat Demands...</p>
         <form id="booking-form" onsubmit="handleBooking(event)" class="grid md:grid-cols-2 gap-6">
             <div><label class="block text-xs font-bold uppercase mb-2">Your Name</label><input type="text" id="book-name" required class="w-full border p-3 rounded-xl"></div>
-            <div><label class="block text-xs font-bold uppercase mb-2">Select Table</label><select id="book-seat" class="w-full border p-3 rounded-xl"><option value="1">Table 1 (Window Side)</option><option value="2">Table 2 (Corner Cozy)</option><option value="3">Table 3 (Main Lounge)</option><option value="4">Table 4 (Bar Counter)</option><option value="5">Table 5 (Lavender Lane)</option></select></div>
+            <div><label class="block text-xs font-bold uppercase mb-2">Select Table</label><select id="book-seat" class="w-full border p-3 rounded-xl"><option value="1">Table 1 (Window Side)</option><option value="2">Table 2 (Corner Cozy)</option><option value="3">Table 3 (Main Lounge)</option></select></div>
             <div><label class="block text-xs font-bold uppercase mb-2">Date</label><input type="date" id="book-date" required onchange="fetchMLPrediction()" class="w-full border p-3 rounded-xl"></div>
             <div><label class="block text-xs font-bold uppercase mb-2">Time Slot</label><input type="time" id="book-time" required class="w-full border p-3 rounded-xl"></div>
             <div class="md:col-span-2"><button type="submit" class="w-full bg-premium text-white py-3 rounded-xl font-bold">Confirm Booking</button></div>
         </form>
     </section>
 
-    <section id="about" class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 items-center border-t">
-        <div>
-            <span class="text-xs font-bold tracking-widest uppercase text-premium opacity-70">Our Story</span>
-            <h2 class="text-4xl font-serif font-semibold text-[#3d2a1d] mt-2 mb-6">Crafting Memories Since 2024</h2>
-            <p class="text-sm leading-relaxed opacity-80 mb-4">Le Croissant me hum sirf baking nahi karte, hum ek experience create karte hain. Humare har croissant ko 24 ghante tak meticulously laminate kiya jata hai taki aapko mile perfect golden crust aur buttery layers.</p>
-            <p class="text-sm leading-relaxed opacity-80">Chahe aap ek shaant shaam bitana chahein ya doston ke saath premium coffee enjoy karna chahein, humara aesthetic ambience aapke har moment ko yaadgaar banata hai.</p>
-        </div>
-        <div class="h-72 bg-stone-200 rounded-2xl bg-cover bg-center shadow-md" style="background-image: url('https://images.unsplash.com/photo-1517433456452-f9633a875f6f?q=80&w=600');"></div>
-    </section>
-
-    <section id="contact" class="bg-white border-t py-16">
-        <div class="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-10">
-            <div>
-                <h3 class="text-2xl font-serif font-bold text-[#3d2a1d] mb-4">Visit Our Paradise</h3>
-                <p class="text-sm opacity-80 mb-6">Aaiye aur mehsoos kijiye taazi baked pastries aur premium coffee ki khushboo.</p>
-                <div class="space-y-3 text-sm">
-                    <p>📍 <strong>Address:</strong> 12, Lavender Lane, Aesthetic District, India</p>
-                    <p>📞 <strong>Phone:</strong> +91 98765 43210</p>
-                    <p>✉️ <strong>Email:</strong> hello@lecroissant.com</p>
-                </div>
-            </div>
-            <div class="bg-stone-50 p-6 rounded-2xl border">
-                <h4 class="font-bold mb-3 text-sm uppercase tracking-wide">Opening Hours</h4>
-                <div class="space-y-2 text-sm opacity-80">
-                    <div class="flex justify-between"><span>Monday - Friday</span><span>08:00 AM - 10:00 PM</span></div>
-                    <div class="flex justify-between font-bold text-premium"><span>Weekends (AI Special)</span><span>07:00 AM - 11:00 PM</span></div>
-                </div>
-            </div>
-        </div>
+    <section id="order-review" class="max-w-4xl mx-auto my-16 p-8 bg-white rounded-3xl shadow-sm border">
+        <h2 class="text-3xl font-serif font-bold text-center mb-2">Order Items & Give Feedback</h2>
+        <p class="text-center text-sm opacity-70 mb-8">Apna order items list karein aur hume rate karein (Data owner dashboard me update hoga).</p>
+        
+        <form id="order-form" onsubmit="handleOrderRating(event)" class="grid md:grid-cols-2 gap-6">
+            <div><label class="block text-xs font-bold uppercase mb-2">Customer Name</label><input type="text" id="order-name" required class="w-full border p-3 rounded-xl" placeholder="Enter your registered name"></div>
+            <div><label class="block text-xs font-bold uppercase mb-2">What did you order?</label><input type="text" id="order-items" required class="w-full border p-3 rounded-xl" placeholder="e.g. 2 Croissant, 1 Matcha Latte"></div>
+            <div><label class="block text-xs font-bold uppercase mb-2">Give Rating (1 to 5 Stars)</label><select id="order-rating" class="w-full border p-3 rounded-xl text-yellow-600 font-bold"><option value="5">⭐⭐⭐⭐⭐ Excellent (5/5)</option><option value="4">⭐⭐⭐⭐ Good (4/5)</option><option value="3">⭐⭐⭐ Average (3/5)</option><option value="2">⭐⭐ Fair (2/5)</option><option value="1">⭐ Poor (1/5)</option></select></div>
+            <div><label class="block text-xs font-bold uppercase mb-2">Check-Out Time (Kon kab gya)</label><input type="time" id="order-checkout" required class="w-full border p-3 rounded-xl"></div>
+            <div class="md:col-span-2"><button type="submit" class="w-full bg-[#3d2a1d] text-white py-3 rounded-xl font-bold">Submit Order & Rating</button></div>
+        </form>
     </section>
 
     <script>
@@ -128,28 +96,17 @@
         async function askAI(){
             const input = document.getElementById("ai-input").value;
             if(!input) return;
-
             const res = await fetch(`${API_BASE}/search`, {
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body:JSON.stringify({ message:input })
             });
-
             const result = await res.json();
             const box = document.getElementById("ai-results");
             box.innerHTML=""; box.classList.remove("hidden");
-
-            if(result.data.length===0){
-                box.innerHTML=`<div class="text-red-500 text-sm p-2">No matching items found. Try 'sweet' or 'cold'!</div>`;
-                return;
-            }
-
+            if(result.data.length===0){ box.innerHTML=`<div class="text-sm p-2 text-red-500">No match. Try 'pastries'!</div>`; return; }
             result.data.forEach(item=>{
-                box.innerHTML += `
-                <div class="flex justify-between items-center p-3 bg-stone-50 rounded-xl border">
-                    <div><p class="font-bold text-sm">${item.name}</p><p class="text-xs opacity-70">${item.description}</p></div>
-                    <span class="text-premium font-bold text-sm">₹${item.price}</span>
-                </div>`;
+                box.innerHTML += `<div class="flex justify-between p-2 bg-stone-50 border rounded-xl text-xs"><div><strong>${item.name}</strong><p>${item.description}</p></div><span class="text-premium font-bold">₹${item.price}</span></div>`;
             });
         }
 
@@ -158,7 +115,6 @@
             if (!selectedDate) return;
             const textLabel = document.getElementById('ml-prediction');
             textLabel.innerText = "🔮 ML Engine analyzing patterns...";
-
             try {
                 const res = await fetch(`${API_BASE}/predict-seat`, {
                     method: 'POST',
@@ -167,9 +123,7 @@
                 });
                 const result = await res.json();
                 if (result.status === 'success') { textLabel.innerText = result.prediction; }
-            } catch (err) {
-                textLabel.innerText = "🔮 ML System Active. Predictive occupancy engine loaded.";
-            }
+            } catch (err) { textLabel.innerText = "🔮 ML Model Active and watching patterns."; }
         }
 
         async function handleBooking(e){
@@ -180,24 +134,33 @@
                 date: document.getElementById("book-date").value,
                 time: document.getElementById("book-time").value
             };
-
             const res = await fetch(`${API_BASE}/book`, {
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body:JSON.stringify(payload)
             });
-
             const result = await res.json();
-            if(result.status==="success"){
-                alert("🎉 Booking Confirmed Successfully!");
-                document.getElementById("booking-form").reset();
-                fetchMLPrediction();
-            }
+            if(result.status==="success"){ alert("🎉 Seat Booked Successfully!"); document.getElementById("booking-form").reset(); }
         }
 
-        window.onload = function(){
-            document.getElementById("ml-prediction").innerText = "🔮 ML Analysis: Dynamic pricing and weekend crowd prediction active.";
-        };
+        async function handleOrderRating(e) {
+            e.preventDefault();
+            const payload = {
+                name: document.getElementById("order-name").value,
+                items: document.getElementById("order-items").value,
+                rating: document.getElementById("order-rating").value,
+                checkout: document.getElementById("order-checkout").value
+            };
+            const res = await fetch(`${API_BASE}/order-rating`, {
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify(payload)
+            });
+            const result = await res.json();
+            if(result.status==="success") { alert("⭐ Order details and rating saved securely in SQL!"); document.getElementById("order-form").reset(); }
+        }
+
+        window.onload = function(){ document.getElementById("ml-prediction").innerText = "🔮 ML Analysis: Dynamic seat pattern analysis ready."; };
     </script>
 </body>
 </html>

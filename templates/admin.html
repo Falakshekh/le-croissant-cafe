@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Croissant - Admin Dashboard</title>
+    <title>Le Croissant - Owner Secure Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body{ background-color:#fcf8f4; color:#4a3728; }
@@ -15,7 +15,7 @@
 
     <nav class="bg-white shadow-sm border-b">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-premium">Le Croissant Admin</h1>
+            <h1 class="text-2xl font-bold text-premium">Le Croissant Secure Owner Panel</h1>
             <a href="/" class="bg-premium text-white px-4 py-2 rounded-lg text-sm font-medium">Back To Website</a>
         </div>
     </nav>
@@ -23,38 +23,50 @@
     <div class="max-w-7xl mx-auto px-6 py-10">
         <div class="flex justify-between items-center mb-8">
             <div>
-                <h2 class="text-4xl font-bold">Owner Dashboard</h2>
-                <p class="text-sm opacity-70">Live Bookings & System Management</p>
+                <h2 class="text-3xl font-bold text-stone-800">Secure Live Database</h2>
+                <p class="text-sm opacity-70">Track: Kon aaya, Kya khaya, Kitni rating di & Kab gaya.</p>
             </div>
             <button onclick="refreshDashboard()" class="bg-premium text-white px-5 py-2.5 rounded-lg shadow font-medium">Refresh Data</button>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-6 mb-10">
+        <div class="grid md:grid-cols-3 gap-6 mb-10">
             <div class="bg-white p-6 rounded-2xl shadow border">
-                <h3 class="text-sm uppercase opacity-60 font-bold">Total Confirmed Bookings</h3>
+                <h3 class="text-xs uppercase opacity-60 font-bold">Total Bookings (Kon Aaya)</h3>
                 <p id="booking-count" class="text-4xl font-bold mt-2 text-premium">0</p>
             </div>
             <div class="bg-white p-6 rounded-2xl shadow border">
-                <h3 class="text-sm uppercase opacity-60 font-bold">Café Tables Status</h3>
-                <p class="text-4xl font-bold mt-2 text-green-600">5 Tables Active</p>
+                <h3 class="text-xs uppercase opacity-60 font-bold">Total Orders Processed</h3>
+                <p id="order-count" class="text-4xl font-bold mt-2 text-stone-800">0</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow border">
+                <h3 class="text-xs uppercase opacity-60 font-bold">Average Customer Rating</h3>
+                <p id="avg-rating" class="text-4xl font-bold mt-2 text-yellow-600">0.0 ★</p>
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl shadow border">
-            <h3 class="text-xl font-bold text-premium mb-4">Live Customer Bookings</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead>
-                        <tr class="border-b text-left text-sm opacity-70">
-                            <th class="py-3">Customer Name</th>
-                            <th class="py-3">Assigned Table</th>
-                            <th class="py-3">Booking Date</th>
-                            <th class="py-3">Time Slot</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-bookings-rows" class="text-sm">
-                        </tbody>
-                </table>
+        <div class="grid lg:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-2xl shadow border">
+                <h3 class="text-xl font-bold text-premium mb-4">👥 Entry Tracker (Check-In / Bookings)</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b opacity-70"><th class="pb-3">Customer</th><th class="pb-3">Seat</th><th class="pb-3">Date</th><th class="pb-3">In-Time</th></tr>
+                        </thead>
+                        <tbody id="admin-bookings-rows"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow border">
+                <h3 class="text-xl font-bold text-stone-800 mb-4">🍱 Food Order & Exit Tracker</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b opacity-70"><th class="pb-3">Customer</th><th class="pb-3">Items Ordered</th><th class="pb-3">Rating Given</th><th class="pb-3">Out-Time</th></tr>
+                        </thead>
+                        <tbody id="admin-orders-rows"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -67,24 +79,48 @@
                 const res = await fetch(`${API_BASE}/admin/dashboard`);
                 const result = await res.json();
 
+                // 1. Render Bookings (In-Time/Seat)
                 const bookingTable = document.getElementById("admin-bookings-rows");
                 bookingTable.innerHTML = "";
-
                 result.bookings.forEach(b => {
                     bookingTable.innerHTML += `
                     <tr class="border-b hover:bg-stone-50">
                         <td class="py-3 font-medium">${b[1]}</td>
-                        <td class="py-3"><span class="bg-stone-100 px-2.5 py-1 rounded-md text-xs font-bold text-premium">Table ${b[2]}</span></td>
+                        <td class="py-3"><span class="bg-stone-100 text-premium px-2 py-0.5 rounded text-xs font-bold">Table ${b[2]}</span></td>
                         <td class="py-3 opacity-80">${b[3]}</td>
                         <td class="py-3 opacity-80">${b[4]}</td>
                     </tr>`;
                 });
 
+                // 2. Render Orders (Items/Rating/Out-Time)
+                const ordersTable = document.getElementById("admin-orders-rows");
+                ordersTable.innerHTML = "";
+                let totalRating = 0;
+
+                result.orders.forEach(o => {
+                    totalRating += o[3];
+                    ordersTable.innerHTML += `
+                    <tr class="border-b hover:bg-stone-50">
+                        <td class="py-3 font-medium">${o[1]}</td>
+                        <td class="py-3 opacity-80">${o[2]}</td>
+                        <td class="py-3 text-yellow-500 font-bold">${'★'.repeat(o[3])}${'☆'.repeat(5-o[3])}</td>
+                        <td class="py-3 text-red-600 font-medium">${o[4]}</td>
+                    </tr>`;
+                });
+
+                // 3. Stats update
                 document.getElementById("booking-count").innerText = result.bookings.length;
+                document.getElementById("order-count").innerText = result.orders.length;
+                
+                let avg = 0;
+                if(result.orders.length > 0) {
+                    avg = (totalRating / result.orders.length).toFixed(1);
+                }
+                document.getElementById("avg-rating").innerText = avg + " ★";
             }
             catch(error){
                 console.error(error);
-                alert("Dashboard connection failed with server.");
+                alert("Database synchronization failed.");
             }
         }
 
