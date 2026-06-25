@@ -111,7 +111,7 @@
                 // 3. Stats update
                 document.getElementById("booking-count").innerText = result.bookings.length;
                 document.getElementById("order-count").innerText = result.orders.length;
-                
+               
                 let avg = 0;
                 if(result.orders.length > 0) {
                     avg = (totalRating / result.orders.length).toFixed(1);
@@ -128,3 +128,4 @@
     </script>
 </body>
 </html>
+

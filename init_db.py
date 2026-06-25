@@ -4,13 +4,13 @@ def init_db():
     conn = sqlite3.connect('cafe_database.db')
     cursor = conn.cursor()
 
-    # 1. Users Table (Customer & Admin)
+    # 1. Users Table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
-        role TEXT DEFAULT 'customer' -- 'customer' or 'admin'
+        role TEXT DEFAULT 'customer'
     )''')
 
     # 2. Menu Table
@@ -18,34 +18,32 @@ def init_db():
     CREATE TABLE IF NOT EXISTS menu (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         item_name TEXT NOT NULL,
-        category TEXT NOT NULL, -- 'cold', 'sweet', 'bakery', etc.
+        category TEXT NOT NULL,
         price REAL NOT NULL,
         description TEXT,
-        tags TEXT -- 'sweet, chocolate, cold, dessert'
+        tags TEXT
     )''')
 
-    # 3. Bookings Table (Slots)
+    # 3. Bookings Table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS bookings (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         customer_name TEXT NOT NULL,
         seat_number INTEGER NOT NULL,
-        booking_date TEXT NOT NULL, -- YYYY-MM-DD
-        booking_time TEXT NOT NULL -- HH:MM
+        booking_date TEXT NOT NULL,
+        booking_time TEXT NOT NULL
     )''')
 
-    # 4. Orders & Ratings Table
+    # 4. Orders & Ratings Table (Fixed Columns to Match Form and Dashboard)
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS orders (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         customer_name TEXT NOT NULL,
         items_ordered TEXT NOT NULL,
-        total_amount REAL NOT NULL,
         rating INTEGER DEFAULT 0,
-        review TEXT
+        check_out_time TEXT NOT NULL
     )''')
 
-    # डमी मेनू डेटा डालना (ताकि AI सर्च काम कर सके)
     cursor.execute("SELECT COUNT(*) FROM menu")
     if cursor.fetchone()[0] == 0:
         menu_items = [
@@ -69,7 +67,6 @@ def init_db():
             'Chilled creamy coffee, thick texture served with ice blend.', 
              'cold, coffee, sweet, thick, creamy, ice, chilled, thanda, shake')
         ]
-
 
         cursor.executemany("INSERT INTO menu (item_name, category, price, description, tags) VALUES (?, ?, ?, ?, ?)", menu_items)
         print("Menu items inserted successfully!")
